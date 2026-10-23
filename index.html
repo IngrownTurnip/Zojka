@@ -5,26 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Happy Birthday!</title>
   <style>
-    /* ---------- Mobile-first base styles ---------- */
+    :root {
+      --pink: #ff69b4;
+      --plum: #2a1830;
+      --cream: #fff3d1;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
-      background: #2a1830; /* shown only while the image loads */
+      background: var(--plum); /* shown only while the image loads */
     }
 
     body {
       overflow-x: hidden;
     }
 
-    /* In-flow image: shown once, natural aspect ratio, full screen width.
-       It scrolls with the page, and its height IS the page height. */
+    /* Comic: normal in-flow image, shown once, full width, scrolls with the page.
+       Its height IS the page height. */
     .comic {
       display: block;
       width: 100%;
       height: auto;
     }
 
-    /* Fixed overlay: stays put while the page scrolls and adds no scroll height. */
+    /* ---------- Decorations: fixed, never block touches or add scroll height ---------- */
+    .confetti, .balloons {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .confetti i {
+      position: absolute;
+      top: 0;
+      left: var(--x);
+      width: var(--s, 8px);
+      height: calc(var(--s, 8px) * 1.6);
+      background: var(--c);
+      border-radius: 2px;
+      opacity: 0;
+      animation: fall var(--d) linear var(--delay) infinite;
+    }
+
+    @keyframes fall {
+      0%   { transform: translate3d(0, -6vh, 0) rotate(0deg); opacity: 0; }
+      8%   { opacity: 0.85; }
+      92%  { opacity: 0.85; }
+      100% { transform: translate3d(var(--drift, 30px), 108vh, 0) rotate(540deg); opacity: 0; }
+    }
+
+    .balloons b {
+      position: absolute;
+      bottom: -18vh;
+      left: var(--x);
+      width: var(--w, 46px);
+      height: calc(var(--w, 46px) * 1.25);
+      border-radius: 50% 50% 48% 48%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), transparent 36%),
+        var(--c);
+      opacity: 0;
+      animation: rise var(--d) ease-in-out var(--delay) infinite;
+    }
+
+    .balloons b::after { /* balloon string */
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      width: 1px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    @keyframes rise {
+      0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+      6%   { opacity: 0.9; }
+      50%  { transform: translate3d(16px, -65vh, 0); }
+      94%  { opacity: 0.9; }
+      100% { transform: translate3d(0, -130vh, 0); opacity: 0; }
+    }
+
+    /* ---------- Fixed card with greeting, video and ticket ---------- */
     .overlay {
       position: fixed;
       top: 0;
@@ -33,37 +102,49 @@
       height: 100vh;   /* fallback */
       height: 100dvh;  /* mobile Safari 15.4+ / modern browsers */
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start; /* content sits at the top */
-      gap: 10px;
-      padding: calc(env(safe-area-inset-top) + 2dvh) 12px 0;
+      justify-content: center;
+      align-items: flex-start;
+      padding: calc(env(safe-area-inset-top) + 2dvh) 10px 0;
       box-sizing: border-box;
-      pointer-events: none; /* scrolling passes through empty areas */
+      pointer-events: none; /* scrolling passes through */
       z-index: 10;
     }
 
-    /* Outer h1 plays the one-time entrance; inner span does the endless float + glow.
-       They are separate elements so the two transform animations never conflict. */
+    .card {
+      width: min(100%, 520px);
+      box-sizing: border-box;
+      padding: 14px 12px 14px;
+      border-radius: 22px;
+      background: rgba(42, 24, 48, 0.68);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 105, 180, 0.5);
+      box-shadow: 0 12px 40px rgba(20, 0, 30, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px; /* space between greeting and the panel below */
+      animation: fade-in 1.4s ease-out 0.3s both;
+    }
+
+    /* Outer h1 = one-time entrance; inner span = endless float + glow */
     .greeting {
-      margin: 0;
+      margin: 4px 0 0;
       font-family: "Snell Roundhand", "Brush Script MT", "Lucida Handwriting",
                    Georgia, "Times New Roman", serif;
       font-style: italic;
       font-weight: 700;
-      font-size: clamp(2.2rem, 11vw, 3.5rem);
-      line-height: 1.1;
+      font-size: clamp(2rem, 9.5vw, 3rem);
+      line-height: 1.15;
       text-align: center;
-      color: #ff69b4;
+      color: var(--pink);
       letter-spacing: 0.02em;
       animation: enter-greeting 2s ease-out both;
     }
 
     .greeting span {
       display: inline-block;
-      animation:
-        float 9s ease-in-out infinite,
-        glow 6s ease-in-out infinite;
+      animation: float 9s ease-in-out infinite, glow 6s ease-in-out infinite;
       will-change: transform;
     }
 
@@ -74,21 +155,19 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
+      50%      { transform: translateY(-6px); }
     }
 
     @keyframes glow {
       0%, 100% {
-        text-shadow:
-          0 2px 4px rgba(50, 0, 40, 0.75),
-          0 0 10px rgba(255, 140, 200, 0.35),
-          0 0 22px rgba(255, 140, 200, 0.2);
+        text-shadow: 0 2px 4px rgba(20, 0, 20, 0.8),
+                     0 0 10px rgba(255, 105, 180, 0.35),
+                     0 0 22px rgba(255, 105, 180, 0.2);
       }
       50% {
-        text-shadow:
-          0 2px 4px rgba(50, 0, 40, 0.75),
-          0 0 14px rgba(255, 190, 220, 0.8),
-          0 0 34px rgba(255, 200, 90, 0.55);
+        text-shadow: 0 2px 4px rgba(20, 0, 20, 0.8),
+                     0 0 14px rgba(255, 170, 215, 0.85),
+                     0 0 34px rgba(255, 105, 180, 0.6);
       }
     }
 
@@ -97,105 +176,198 @@
       to   { opacity: 1; }
     }
 
+    /* Hide / show panel (no JavaScript needed) */
+    .more {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px; /* space between video and ticket */
+    }
+
+    .more summary {
+      align-self: center;
+      list-style: none;
+      cursor: pointer;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--cream);
+      font: 600 0.75rem/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .more summary::-webkit-details-marker { display: none; }
+    .more[open] .when-closed { display: none; }
+    .more:not([open]) .when-open { display: none; }
+
     .player {
       display: block;
       width: auto;
       height: auto;
       max-width: 100%;
-      max-height: 36vh;   /* fallback */
-      max-height: 36dvh;
+      max-height: 30vh;
+      max-height: 30dvh;
       background: #000;
-      border-radius: 10px;
-      border: 2px solid #fff3d1;
-      box-shadow: 0 6px 24px rgba(40, 0, 40, 0.55);
-      pointer-events: auto; /* video controls stay usable */
-      animation: fade-in 3.5s ease-out 1s both; /* appears just after the greeting */
+      border-radius: 12px;
+      border: 2px solid var(--pink);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+      pointer-events: auto; /* controls stay usable */
+      animation: fade-in 3.5s ease-out 1s both; /* your slower fade */
     }
 
-    /* Place button: name on top, dates underneath. Easy to tap on a phone. */
-    .book {
+    /* Ticket-style link: place + dates on the left, countdown on the right */
+    .ticket {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--cream);
+      color: #4a0d35;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+      animation: fade-in 4.5s ease-out 1.6s both; /* your slower fade */
+    }
+
+    .ticket:active { transform: scale(0.98); }
+
+    .t-main {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+
+    .t-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #d63384;
+    }
+
+    .place { font-weight: 700; font-size: 1rem; line-height: 1.25; }
+    .dates { font-size: 0.82rem; opacity: 0.85; }
+
+    .t-count {
+      min-width: 78px;
+      padding: 8px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
-      max-width: 100%;
-      box-sizing: border-box;
-      padding: 10px 22px;
-      border-radius: 22px;
-      background: #fff3d1;
-      color: #ff69b4;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      text-decoration: none;
+      justify-content: center;
       text-align: center;
-      box-shadow: 0 4px 16px rgba(40, 0, 40, 0.5);
-      pointer-events: auto; /* the button must be tappable */
-      animation: fade-in 4.5s ease-out 1.6s both;
+      border-left: 2px dashed rgba(90, 18, 64, 0.35);
+      background: linear-gradient(160deg, #ff9ccf, var(--pink));
+      color: #4a0d35;
     }
 
-    .book .place {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .book .dates {
-      font-weight: 500;
-      font-size: 0.85rem;
-      opacity: 0.85;
-    }
-
-    .book:active {
-      transform: scale(0.97);
-    }
+    .t-count b { font-size: 1.7rem; line-height: 1.1; }
+    .t-count small { font-size: 0.7rem; font-weight: 600; }
 
     /* ---------- Larger screens (tablet and up) ---------- */
     @media (min-width: 600px) {
-      .overlay {
-        gap: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-top: calc(env(safe-area-inset-top) + 3dvh);
-      }
-      <br>
-      .greeting {
-        font-size: clamp(3rem, 7vw, 4.5rem);
-      }
-      <br>
-      <br>
-      .player {
-        max-width: min(92vw, 640px);
-        max-height: 46dvh;
-        border-width: 3px;
-        border-radius: 12px;
-      }
+      .overlay { padding-top: calc(env(safe-area-inset-top) + 3dvh); }
+      .card { padding: 18px 20px 20px; gap: 14px; }
+      .greeting { font-size: clamp(3rem, 6vw, 4rem); }
+      .player { max-height: 38dvh; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .greeting, .greeting span, .player, .book { animation: none; }
+      .confetti, .balloons { display: none; }
+      .card, .greeting, .greeting span, .player, .ticket { animation: none; }
     }
   </style>
 </head>
 <body>
 
   <img class="comic" src="comic.jpg" alt="Birthday comic">
-<br>
-  <br>
-  <div class="overlay">
-    <br>
-    <h1 class="greeting"><span>Happy Birthday, Szczureczka!</span></h1>
-    <br>
-    <br>
-    <video class="player" src="video.mp4#t=0.1" controls playsinline preload="metadata"></video>
-    <a class="book" href="https://winosabat.pl/pokoje-goscinne/" target="_blank" rel="noopener noreferrer">
-      <br>
-      <br>
-      <br>
-      <span class="place">Winnica i Winiarnia Celtica</span>
-      <span class="dates">Mon 16 – Wed 18 November 2026</span>
-    </a>
+
+  <!-- Balloons and confetti (decoration only) -->
+  <div class="balloons" aria-hidden="true">
+    <b style="--x:6%;  --w:44px; --c:#ff69b4; --d:24s; --delay:-4s"></b>
+    <b style="--x:24%; --w:38px; --c:#ffd27a; --d:28s; --delay:-15s"></b>
+    <b style="--x:48%; --w:50px; --c:#b388ff; --d:22s; --delay:-9s"></b>
+    <b style="--x:70%; --w:40px; --c:#7fe0d0; --d:26s; --delay:-20s"></b>
+    <b style="--x:88%; --w:46px; --c:#ff4fa3; --d:30s; --delay:-12s"></b>
   </div>
 
-</body>
-</html>
+  <div class="confetti" aria-hidden="true">
+    <i style="--x:4%;  --c:#ff69b4; --d:13s; --delay:-2s;  --s:8px;  --drift:30px"></i>
+    <i style="--x:10%; --c:#ffd27a; --d:16s; --delay:-9s;  --s:7px;  --drift:-25px"></i>
+    <i style="--x:17%; --c:#fff3d1; --d:12s; --delay:-5s;  --s:6px;  --drift:20px"></i>
+    <i style="--x:25%; --c:#b388ff; --d:15s; --delay:-12s; --s:8px;  --drift:-30px"></i>
+    <i style="--x:33%; --c:#7fe0d0; --d:14s; --delay:-1s;  --s:7px;  --drift:25px"></i>
+    <i style="--x:41%; --c:#ff69b4; --d:17s; --delay:-7s;  --s:9px;  --drift:-20px"></i>
+    <i style="--x:49%; --c:#ffd27a; --d:13s; --delay:-14s; --s:6px;  --drift:30px"></i>
+    <i style="--x:57%; --c:#fff3d1; --d:16s; --delay:-3s;  --s:8px;  --drift:-25px"></i>
+    <i style="--x:64%; --c:#b388ff; --d:12s; --delay:-10s; --s:7px;  --drift:20px"></i>
+    <i style="--x:72%; --c:#7fe0d0; --d:15s; --delay:-6s;  --s:8px;  --drift:-30px"></i>
+    <i style="--x:79%; --c:#ff69b4; --d:14s; --delay:-13s; --s:6px;  --drift:25px"></i>
+    <i style="--x:86%; --c:#ffd27a; --d:17s; --delay:-4s;  --s:9px;  --drift:-20px"></i>
+    <i style="--x:92%; --c:#fff3d1; --d:13s; --delay:-11s; --s:7px;  --drift:30px"></i>
+    <i style="--x:97%; --c:#b388ff; --d:16s; --delay:-8s;  --s:8px;  --drift:-25px"></i>
+  </div>
+
+  <div class="overlay">
+    <main class="card">
+      <h1 class="greeting"><span>Happy Birthday,<br>Szczureczka!</span></h1>
+
+      <details class="more" open>
+        <summary>
+          <span class="when-open">Hide video &amp; trip ▲</span>
+          <span class="when-closed">Show video &amp; trip ▼</span>
+        </summary>
+
+        <video class="player" src="video.mp4#t=0.1" controls playsinline preload="metadata"></video>
+
+        <a class="ticket" href="https://winosabat.pl/pokoje-goscinne/" target="_blank" rel="noopener noreferrer">
+          <span class="t-main">
+            <span class="t-label">Your getaway</span>
+            <span class="place">Winnica i Winiarnia Celtica</span>
+            <span class="dates">Mon 16 – Wed 18 November 2026</span>
+          </span>
+          <span class="t-count">
+            <b id="days">🎉</b>
+            <small id="unit">soon</small>
+          </span>
+        </a>
+      </details>
+    </main>
+  </div>
+
+  <script>
+    /* Countdown to Monday 16 November 2026 (checked in the visitor's own time zone) */
+    (function () {
+      try {
+        var start = new Date(2026, 10, 16);
+        var end = new Date(2026, 10, 19); /* the morning after the stay ends */
+        var now = new Date();
+        var d = document.getElementById("days");
+        var u = document.getElementById("unit");
+        if (now < start) {
+          var n = Math.ceil((start - now) / 86400000);
+          d.textContent = n;
+          u.textContent = n === 1 ? "day to go" : "days to go";
+        } else if (now < end) {
+          d.textContent = "🎉";
+          u.textContent = "enjoy!";
+        } else {
+          d.textContent = "💖";
+          u.textContent = "memories";
+        }
+      } catch (e) {}
+    })();
+  </script>
 
 </body>
 </html>
