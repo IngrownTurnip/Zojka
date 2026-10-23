@@ -110,7 +110,7 @@
       border: 2px solid #fff3d1;
       box-shadow: 0 6px 24px rgba(40, 0, 40, 0.55);
       pointer-events: auto; /* video controls stay usable */
-      animation: fade-in 1.6s ease-out 1s both; /* appears just after the greeting */
+      animation: fade-in 3.6s ease-out 1s both; /* appears just after the greeting */
     }
 
     /* Place button: name on top, dates underneath. Easy to tap on a phone. */
@@ -156,9 +156,12 @@
         padding-right: 16px;
         padding-top: calc(env(safe-area-inset-top) + 3dvh);
       }
+      <br>
       .greeting {
         font-size: clamp(3rem, 7vw, 4.5rem);
       }
+      <br>
+      <br>
       .player {
         max-width: min(92vw, 640px);
         max-height: 46dvh;
@@ -177,7 +180,7 @@
   <img class="comic" src="comic.jpg" alt="Birthday comic">
 
   <div class="overlay">
-    <h1 class="greeting"><span>Happy Birthday!</span></h1>
+    <h1 class="greeting"><span>Happy Birthday, Szczureczka!</span></h1>
     <video class="player" src="video.mp4#t=0.1" controls playsinline preload="metadata"></video>
     <a class="book" href="https://winosabat.pl/pokoje-goscinne/" target="_blank" rel="noopener noreferrer">
       <span class="place">Winnica i Winiarnia Celtica</span>
