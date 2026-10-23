@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Happy Birthday!</title>
-  <!-- Google Fonts for classic typography -->
+  <!-- Classic elegant serif & clean sans fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --gold: #d4af37;
-      --gold-light: #f3e5ab;
-      --wine: #1a0814;
+      --pink: #ff69b4;
+      --pink-light: #ffb6c1;
+      --purple: #b388ff;
       --plum: #2a1830;
-      --cream: #fbf7ee;
+      --cream: #fff3d1;
     }
 
     html, body {
@@ -86,7 +86,7 @@
 
     .bat.squeaked svg {
       transform: scale(1.3) rotate(15deg);
-      filter: drop-shadow(0 0 8px var(--gold));
+      filter: drop-shadow(0 0 8px var(--pink));
     }
 
     .bat.rev.squeaked svg {
@@ -96,9 +96,9 @@
     .bat-confetti-particle {
       position: fixed;
       width: 6px;
-      height: 8px;
-      background: var(--c, var(--gold));
-      border-radius: 1px;
+      height: 10px;
+      background: var(--c, var(--pink));
+      border-radius: 2px;
       pointer-events: none;
       z-index: 999;
       animation: bat-explode 0.6s ease-out forwards;
@@ -106,12 +106,12 @@
 
     @keyframes bat-explode {
       0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-      100% { transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(360deg); opacity: 0; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0.4) rotate(360deg); opacity: 0; }
     }
 
     .bat .body {
-      fill: #140713;
-      stroke: rgba(212, 175, 55, 0.6);
+      fill: #1a0b20;
+      stroke: rgba(255, 105, 180, 0.55);
       stroke-width: 1.5;
       stroke-linejoin: round;
     }
@@ -128,7 +128,7 @@
       to   { transform: scaleY(0.4); }
     }
 
-    /* ---------- Fixed Card: Vintage Elegance ---------- */
+    /* ---------- Fixed Card: Structured Class & Lines ---------- */
     .overlay {
       position: fixed;
       top: 0;
@@ -148,13 +148,14 @@
     .card {
       width: min(100%, 520px);
       box-sizing: border-box;
-      padding: 22px 20px 20px;
+      padding: 20px 18px 18px;
       border-radius: 16px;
-      background: rgba(26, 8, 20, 0.82);
+      background: rgba(35, 18, 42, 0.85);
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.08);
+      /* Classic double-line border styling */
+      border: 2px solid rgba(255, 105, 180, 0.4);
+      box-shadow: 0 16px 48px rgba(15, 0, 20, 0.6), inset 0 0 0 1px rgba(179, 136, 255, 0.25);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -163,17 +164,17 @@
       pointer-events: auto;
     }
 
-    /* Serif Title */
+    /* Elegant Serif Heading with Pink/Purple Accents */
     .greeting {
-      margin: 2px 0 0;
+      margin: 4px 0 0;
       font-family: "Cormorant Garamond", Georgia, serif;
       font-style: italic;
       font-weight: 700;
-      font-size: clamp(2.2rem, 9.5vw, 3.2rem);
+      font-size: clamp(2.4rem, 9.5vw, 3.4rem);
       line-height: 1.1;
       text-align: center;
-      color: var(--gold-light);
-      letter-spacing: 0.03em;
+      color: var(--pink);
+      letter-spacing: 0.02em;
       animation: enter-greeting 2s ease-out both;
     }
 
@@ -195,12 +196,14 @@
 
     @keyframes glow {
       0%, 100% {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9),
-                     0 0 12px rgba(212, 175, 55, 0.3);
+        text-shadow: 0 2px 4px rgba(20, 0, 20, 0.9),
+                     0 0 10px rgba(255, 105, 180, 0.4),
+                     0 0 24px rgba(179, 136, 255, 0.2);
       }
       50% {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9),
-                     0 0 22px rgba(243, 229, 171, 0.65);
+        text-shadow: 0 2px 4px rgba(20, 0, 20, 0.9),
+                     0 0 16px rgba(255, 182, 193, 0.8),
+                     0 0 36px rgba(179, 136, 255, 0.5);
       }
     }
 
@@ -217,19 +220,19 @@
       gap: 14px;
     }
 
-    /* Wax Seal Style Summary Button */
+    /* Structured Classic Button Style */
     .more summary {
       align-self: center;
       list-style: none;
       cursor: pointer;
-      padding: 8px 24px;
-      border-radius: 4px;
-      border: 1px solid var(--gold);
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(114, 47, 55, 0.45));
-      color: var(--gold-light);
-      font: 700 0.85rem/1.4 "Montserrat", system-ui, sans-serif;
+      padding: 9px 24px;
+      border-radius: 999px;
+      border: 1px solid var(--purple);
+      background: linear-gradient(135deg, rgba(179, 136, 255, 0.2), rgba(255, 105, 180, 0.25));
+      color: var(--cream);
+      font: 600 0.85rem/1.4 "Outfit", system-ui, sans-serif;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
       transition: all 0.3s ease;
@@ -246,12 +249,12 @@
     .more[open] summary {
       padding: 4px 16px;
       font-size: 0.72rem;
-      border-color: rgba(212, 175, 55, 0.4);
+      border-color: rgba(255, 105, 180, 0.4);
     }
 
     @keyframes invite {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-      50%      { box-shadow: 0 0 16px 2px rgba(212, 175, 55, 0.45); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+      50%      { box-shadow: 0 0 18px 3px rgba(179, 136, 255, 0.5); }
     }
 
     .player {
@@ -262,27 +265,27 @@
       max-height: 30vh;
       max-height: 30dvh;
       background: #000;
-      border-radius: 8px;
-      border: 1px solid var(--gold);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      border: 2px solid var(--purple);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       pointer-events: auto;
       animation: fade-in 1.6s ease-out both;
     }
 
-    /* Vintage Invitation Ticket */
+    /* Structured Ticket Design */
     .ticket {
       display: flex;
       align-items: stretch;
       width: 100%;
       box-sizing: border-box;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
       background: var(--cream);
-      color: #2c1622;
+      color: #3b1435;
       text-decoration: none;
-      border: 1px solid rgba(212, 175, 55, 0.5);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-      font-family: "Montserrat", system-ui, sans-serif;
+      border: 1px solid var(--pink);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      font-family: "Outfit", system-ui, sans-serif;
       pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
       animation: fade-in 2.4s ease-out 0.4s both;
@@ -301,42 +304,41 @@
     }
 
     .t-label {
-      font-size: 0.62rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #8c2a4e;
+      color: #b01772;
     }
 
     .place {
-      font-family: "Cormorant Garamond", serif;
       font-weight: 700;
-      font-size: 1.15rem;
-      line-height: 1.2;
-      color: #1a0814;
+      font-size: 1.05rem;
+      line-height: 1.25;
+      color: #2a0e26;
     }
 
-    .dates { font-size: 0.78rem; opacity: 0.85; }
+    .dates { font-size: 0.8rem; opacity: 0.85; }
 
     .t-count {
-      min-width: 82px;
+      min-width: 80px;
       padding: 8px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      border-left: 2px dashed rgba(140, 42, 78, 0.25);
-      background: linear-gradient(160deg, #f3e5ab, #d4af37);
-      color: #1a0814;
+      border-left: 2px dashed rgba(176, 23, 114, 0.3);
+      background: linear-gradient(160deg, #e0b0ff, var(--pink));
+      color: #2a0e26;
     }
 
     .t-count b { font-size: 1.6rem; line-height: 1.1; }
-    .t-count small { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .t-count small { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
 
     @media (min-width: 600px) {
       .overlay { padding-top: calc(env(safe-area-inset-top) + 3dvh); }
-      .card { padding: 24px; gap: 16px; }
+      .card { padding: 22px 20px 20px; gap: 16px; }
       .greeting { font-size: clamp(3.2rem, 6.5vw, 4.2rem); }
       .player { max-height: 38dvh; }
       .bat { width: calc(var(--w, 54px) * 1.3); }
@@ -374,7 +376,7 @@
 
       <details class="more">
         <summary>
-          <span class="when-closed">✦ Open Invitation ✦</span>
+          <span class="when-closed">✨ Open your surprise ✨</span>
           <span class="when-open">Close ▲</span>
         </summary>
 
@@ -387,7 +389,7 @@
             <span class="dates">Mon 16 – Wed 18 November 2026</span>
           </span>
           <span class="t-count">
-            <b id="days">🍷</b>
+            <b id="days">🎉</b>
             <small id="unit">soon</small>
           </span>
         </a>
@@ -409,7 +411,7 @@
           d.textContent = n;
           u.textContent = n === 1 ? "day to go" : "days to go";
         } else if (now < end) {
-          d.textContent = "🍷";
+          d.textContent = "🎉";
           u.textContent = "enjoy!";
         } else {
           d.textContent = "💖";
@@ -447,7 +449,7 @@
       }
 
       function createExplosion(x, y) {
-        var colors = ['#d4af37', '#f3e5ab', '#ffffff', '#722f37'];
+        var colors = ['#ff69b4', '#b388ff', '#ffb6c1', '#fff3d1'];
         var particleCount = 10;
         for (var i = 0; i < particleCount; i++) {
           var p = document.createElement('div');
