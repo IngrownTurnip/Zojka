@@ -4,32 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Happy Birthday!</title>
+  <!-- Google Fonts for classic typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink: #ff69b4;
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --wine: #1a0814;
       --plum: #2a1830;
-      --cream: #fff3d1;
+      --cream: #fbf7ee;
     }
 
     html, body {
       margin: 0;
       padding: 0;
-      background: var(--plum); /* shown only while the image loads */
+      background: var(--plum);
     }
 
     body {
       overflow-x: hidden;
     }
 
-    /* Comic: normal in-flow image, shown once, full width, scrolls with the page.
-       Its height IS the page height. */
     .comic {
       display: block;
       width: 100%;
       height: auto;
     }
 
-    /* ---------- Decorations: fixed, never block touches or add scroll height ---------- */
+    /* ---------- Fixed Bat Overlay ---------- */
     .bats {
       position: fixed;
       top: 0;
@@ -42,25 +46,19 @@
       z-index: 5;
     }
 
-    /* ---------- Bats ---------- */
     .bat {
       position: absolute;
       top: var(--y);
       left: 0;
       width: var(--w, 54px);
       animation: fly var(--d) linear var(--delay) infinite;
-      pointer-events: auto; /* allow clicking/tapping bats */
+      pointer-events: auto;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .bat.rev {
-      animation-name: fly-rev;
-    }
-
-    .bat.rev svg {
-      transform: scaleX(-1); /* face the other way */
-    }
+    .bat.rev { animation-name: fly-rev; }
+    .bat.rev svg { transform: scaleX(-1); }
 
     @keyframes fly {
       from { transform: translate3d(-20vw, 0, 0); }
@@ -72,10 +70,7 @@
       to   { transform: translate3d(-20vw, 0, 0); }
     }
 
-    .bob {
-      animation: bob var(--bobd, 3.4s) ease-in-out infinite;
-    }
-
+    .bob { animation: bob var(--bobd, 3.4s) ease-in-out infinite; }
     @keyframes bob {
       0%, 100% { transform: translateY(0); }
       50%      { transform: translateY(-12px); }
@@ -89,42 +84,34 @@
       transition: transform 0.2s ease;
     }
 
-    /* Squeak / tap animation effect */
     .bat.squeaked svg {
       transform: scale(1.3) rotate(15deg);
-      filter: drop-shadow(0 0 8px var(--pink));
+      filter: drop-shadow(0 0 8px var(--gold));
     }
 
     .bat.rev.squeaked svg {
       transform: scale(-1.3, 1.3) rotate(-15deg);
     }
 
-    /* Confetti explosion particle styling */
     .bat-confetti-particle {
       position: fixed;
       width: 6px;
-      height: 10px;
-      background: var(--c, #ff69b4);
-      border-radius: 2px;
+      height: 8px;
+      background: var(--c, var(--gold));
+      border-radius: 1px;
       pointer-events: none;
       z-index: 999;
       animation: bat-explode 0.6s ease-out forwards;
     }
 
     @keyframes bat-explode {
-      0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--tx), var(--ty)) scale(0.4) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(360deg); opacity: 0; }
     }
 
     .bat .body {
-      fill: #1a0b20;
-      stroke: rgba(255, 105, 180, 0.55);
+      fill: #140713;
+      stroke: rgba(212, 175, 55, 0.6);
       stroke-width: 1.5;
       stroke-linejoin: round;
     }
@@ -133,7 +120,6 @@
       transform-box: fill-box;
       animation: flap var(--f, 0.7s) ease-in-out infinite alternate;
     }
-
     .bat .wing-l { transform-origin: 100% 40%; }
     .bat .wing-r { transform-origin: 0% 40%; }
 
@@ -142,53 +128,52 @@
       to   { transform: scaleY(0.4); }
     }
 
-    /* ---------- Fixed card with greeting, video and ticket ---------- */
+    /* ---------- Fixed Card: Vintage Elegance ---------- */
     .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100vh;   /* fallback */
-      height: 100dvh;  /* mobile Safari 15.4+ / modern browsers */
+      height: 100vh;
+      height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       padding: calc(env(safe-area-inset-top) + 2dvh) 10px 0;
       box-sizing: border-box;
-      pointer-events: none; /* scrolling passes through */
+      pointer-events: none;
       z-index: 10;
     }
 
     .card {
       width: min(100%, 520px);
       box-sizing: border-box;
-      padding: 14px 12px 14px;
-      border-radius: 22px;
-      background: rgba(42, 24, 48, 0.68);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 105, 180, 0.5);
-      box-shadow: 0 12px 40px rgba(20, 0, 30, 0.5);
+      padding: 22px 20px 20px;
+      border-radius: 16px;
+      background: rgba(26, 8, 20, 0.82);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.08);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px; /* space between greeting and the panel below */
+      gap: 14px;
       animation: fade-in 1.4s ease-out 0.3s both;
       pointer-events: auto;
     }
 
-    /* Outer h1 = one-time entrance; inner span = endless float + glow */
+    /* Serif Title */
     .greeting {
-      margin: 4px 0 0;
-      font-family: "Snell Roundhand", "Brush Script MT", "Lucida Handwriting",
-                   Georgia, "Times New Roman", serif;
+      margin: 2px 0 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
       font-style: italic;
       font-weight: 700;
-      font-size: clamp(2rem, 9.5vw, 3rem);
-      line-height: 1.15;
+      font-size: clamp(2.2rem, 9.5vw, 3.2rem);
+      line-height: 1.1;
       text-align: center;
-      color: var(--pink);
-      letter-spacing: 0.02em;
+      color: var(--gold-light);
+      letter-spacing: 0.03em;
       animation: enter-greeting 2s ease-out both;
     }
 
@@ -205,19 +190,17 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-6px); }
+      50%      { transform: translateY(-5px); }
     }
 
     @keyframes glow {
       0%, 100% {
-        text-shadow: 0 2px 4px rgba(20, 0, 20, 0.8),
-                     0 0 10px rgba(255, 105, 180, 0.35),
-                     0 0 22px rgba(255, 105, 180, 0.2);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9),
+                     0 0 12px rgba(212, 175, 55, 0.3);
       }
       50% {
-        text-shadow: 0 2px 4px rgba(20, 0, 20, 0.8),
-                     0 0 14px rgba(255, 170, 215, 0.85),
-                     0 0 34px rgba(255, 105, 180, 0.6);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9),
+                     0 0 22px rgba(243, 229, 171, 0.65);
       }
     }
 
@@ -226,46 +209,49 @@
       to   { opacity: 1; }
     }
 
-    /* Hide / show panel (no JavaScript needed) */
     .more {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px; /* space between video and ticket */
+      gap: 14px;
     }
 
+    /* Wax Seal Style Summary Button */
     .more summary {
       align-self: center;
       list-style: none;
       cursor: pointer;
-      padding: 8px 20px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      color: var(--cream);
-      font: 600 0.95rem/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      padding: 8px 24px;
+      border-radius: 4px;
+      border: 1px solid var(--gold);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(114, 47, 55, 0.45));
+      color: var(--gold-light);
+      font: 700 0.85rem/1.4 "Montserrat", system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
+      transition: all 0.3s ease;
     }
 
     .more summary::-webkit-details-marker { display: none; }
     .more[open] .when-closed { display: none; }
     .more:not([open]) .when-open { display: none; }
 
-    /* While closed: slow, gentle glow on the button to invite a tap */
     .more:not([open]) summary {
       animation: invite 4s ease-in-out infinite;
     }
 
-    /* When open: smaller, quieter button */
     .more[open] summary {
-      padding: 4px 14px;
-      font-size: 0.75rem;
+      padding: 4px 16px;
+      font-size: 0.72rem;
+      border-color: rgba(212, 175, 55, 0.4);
     }
 
     @keyframes invite {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
-      50%      { box-shadow: 0 0 16px 3px rgba(255, 105, 180, 0.55); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+      50%      { box-shadow: 0 0 16px 2px rgba(212, 175, 55, 0.45); }
     }
 
     .player {
@@ -276,26 +262,27 @@
       max-height: 30vh;
       max-height: 30dvh;
       background: #000;
-      border-radius: 12px;
-      border: 2px solid var(--pink);
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-      pointer-events: auto; /* controls stay usable */
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+      pointer-events: auto;
       animation: fade-in 1.6s ease-out both;
     }
 
-    /* Ticket-style link: place + dates on the left, countdown on the right */
+    /* Vintage Invitation Ticket */
     .ticket {
       display: flex;
       align-items: stretch;
       width: 100%;
       box-sizing: border-box;
-      border-radius: 14px;
+      border-radius: 8px;
       overflow: hidden;
       background: var(--cream);
-      color: #4a0d35;
+      color: #2c1622;
       text-decoration: none;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      font-family: "Montserrat", system-ui, sans-serif;
       pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
       animation: fade-in 2.4s ease-out 0.4s both;
@@ -314,37 +301,43 @@
     }
 
     .t-label {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #d63384;
+      color: #8c2a4e;
     }
 
-    .place { font-weight: 700; font-size: 1rem; line-height: 1.25; }
-    .dates { font-size: 0.82rem; opacity: 0.85; }
+    .place {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      line-height: 1.2;
+      color: #1a0814;
+    }
+
+    .dates { font-size: 0.78rem; opacity: 0.85; }
 
     .t-count {
-      min-width: 78px;
+      min-width: 82px;
       padding: 8px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      border-left: 2px dashed rgba(90, 18, 64, 0.35);
-      background: linear-gradient(160deg, #ff9ccf, var(--pink));
-      color: #4a0d35;
+      border-left: 2px dashed rgba(140, 42, 78, 0.25);
+      background: linear-gradient(160deg, #f3e5ab, #d4af37);
+      color: #1a0814;
     }
 
-    .t-count b { font-size: 1.7rem; line-height: 1.1; }
-    .t-count small { font-size: 0.7rem; font-weight: 600; }
+    .t-count b { font-size: 1.6rem; line-height: 1.1; }
+    .t-count small { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* ---------- Larger screens (tablet and up) ---------- */
     @media (min-width: 600px) {
       .overlay { padding-top: calc(env(safe-area-inset-top) + 3dvh); }
-      .card { padding: 18px 20px 20px; gap: 14px; }
-      .greeting { font-size: clamp(3rem, 6vw, 4rem); }
+      .card { padding: 24px; gap: 16px; }
+      .greeting { font-size: clamp(3.2rem, 6.5vw, 4.2rem); }
       .player { max-height: 38dvh; }
       .bat { width: calc(var(--w, 54px) * 1.3); }
     }
@@ -360,85 +353,28 @@
 
   <img class="comic" src="comic.jpg" alt="Birthday comic">
 
-  <!-- Bats (decoration only). Multiple SVGs floating across the screen. -->
+  <!-- Floating Bats -->
   <div class="bats" aria-hidden="true">
-
-    <div class="bat" style="--y:6%; --w:48px; --d:22s; --delay:-3s; --f:0.65s;">
-      <div class="bob" style="--bobd:3.0s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat" style="--y:12%; --w:56px; --d:26s; --delay:-6s; --f:0.7s;">
-      <div class="bob" style="--bobd:3.4s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat rev" style="--y:20%; --w:60px; --d:24s; --delay:-12s; --f:0.75s;">
-      <div class="bob" style="--bobd:3.2s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat rev" style="--y:30%; --w:42px; --d:32s; --delay:-18s; --f:0.6s;">
-      <div class="bob" style="--bobd:2.9s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat" style="--y:40%; --w:50px; --d:21s; --delay:-9s; --f:0.58s;">
-      <div class="bob" style="--bobd:3.6s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat" style="--y:50%; --w:64px; --d:30s; --delay:-24s; --f:0.8s;">
-      <div class="bob" style="--bobd:3.8s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat rev" style="--y:60%; --w:52px; --d:25s; --delay:-15s; --f:0.7s;">
-      <div class="bob" style="--bobd:3.3s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat rev" style="--y:68%; --w:48px; --d:28s; --delay:-11s; --f:0.65s;">
-      <div class="bob" style="--bobd:3.1s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat" style="--y:78%; --w:58px; --d:27s; --delay:-7s; --f:0.72s;">
-      <div class="bob" style="--bobd:3.5s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat" style="--y:84%; --w:38px; --d:34s; --delay:-2s; --f:0.55s;">
-      <div class="bob" style="--bobd:2.7s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
-    <div class="bat rev" style="--y:92%; --w:44px; --d:23s; --delay:-20s; --f:0.62s;">
-      <div class="bob" style="--bobd:2.8s">
-        <svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg>
-      </div>
-    </div>
-
+    <div class="bat" style="--y:6%; --w:48px; --d:22s; --delay:-3s; --f:0.65s;"><div class="bob" style="--bobd:3.0s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat" style="--y:12%; --w:56px; --d:26s; --delay:-6s; --f:0.7s;"><div class="bob" style="--bobd:3.4s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat rev" style="--y:20%; --w:60px; --d:24s; --delay:-12s; --f:0.75s;"><div class="bob" style="--bobd:3.2s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat rev" style="--y:30%; --w:42px; --d:32s; --delay:-18s; --f:0.6s;"><div class="bob" style="--bobd:2.9s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat" style="--y:40%; --w:50px; --d:21s; --delay:-9s; --f:0.58s;"><div class="bob" style="--bobd:3.6s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat" style="--y:50%; --w:64px; --d:30s; --delay:-24s; --f:0.8s;"><div class="bob" style="--bobd:3.8s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat rev" style="--y:60%; --w:52px; --d:25s; --delay:-15s; --f:0.7s;"><div class="bob" style="--bobd:3.3s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat rev" style="--y:68%; --w:48px; --d:28s; --delay:-11s; --f:0.65s;"><div class="bob" style="--bobd:3.1s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat" style="--y:78%; --w:58px; --d:27s; --delay:-7s; --f:0.72s;"><div class="bob" style="--bobd:3.5s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat" style="--y:84%; --w:38px; --d:34s; --delay:-2s; --f:0.55s;"><div class="bob" style="--bobd:2.7s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
+    <div class="bat rev" style="--y:92%; --w:44px; --d:23s; --delay:-20s; --f:0.62s;"><div class="bob" style="--bobd:2.8s"><svg viewBox="0 0 100 50"><path class="body wing wing-l" d="M45 22 C35 10 15 8 2 14 C10 16 12 22 18 26 C22 22 26 24 30 30 C34 26 40 28 45 30 Z"/><path class="body wing wing-r" d="M55 22 C65 10 85 8 98 14 C90 16 88 22 82 26 C78 22 74 24 70 30 C66 26 60 28 55 30 Z"/><path class="body" d="M46 20 L47 12 L50 18 L53 12 L54 20 Z"/><ellipse class="body" cx="50" cy="27" rx="5" ry="9"/></svg></div></div>
   </div>
 
   <div class="overlay">
     <main class="card">
       <h1 class="greeting"><span>Happy Birthday,<br>Szczureczka!</span></h1>
 
-      <!-- No "open" attribute, so the panel starts closed -->
       <details class="more">
         <summary>
-          <span class="when-closed">🎁 Open your surprise</span>
+          <span class="when-closed">✦ Open Invitation ✦</span>
           <span class="when-open">Close ▲</span>
         </summary>
 
@@ -451,7 +387,7 @@
             <span class="dates">Mon 16 – Wed 18 November 2026</span>
           </span>
           <span class="t-count">
-            <b id="days">🎉</b>
+            <b id="days">🍷</b>
             <small id="unit">soon</small>
           </span>
         </a>
@@ -460,7 +396,7 @@
   </div>
 
   <script>
-    /* Countdown to Monday 16 November 2026 */
+    /* Countdown */
     (function () {
       try {
         var start = new Date(2026, 10, 16);
@@ -473,7 +409,7 @@
           d.textContent = n;
           u.textContent = n === 1 ? "day to go" : "days to go";
         } else if (now < end) {
-          d.textContent = "🎉";
+          d.textContent = "🍷";
           u.textContent = "enjoy!";
         } else {
           d.textContent = "💖";
@@ -482,18 +418,14 @@
       } catch (e) {}
     })();
 
-    /* Interactive bat squeaker & confetti explosion */
+    /* Bat sound & confetti */
     (function () {
       let audioCtx = null;
 
       function playSqueak() {
         try {
-          if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          }
-          if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-          }
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
 
           var osc = audioCtx.createOscillator();
           var gain = audioCtx.createGain();
@@ -515,7 +447,7 @@
       }
 
       function createExplosion(x, y) {
-        var colors = ['#ff69b4', '#ffd27a', '#fff3d1', '#b388ff', '#7fe0d0'];
+        var colors = ['#d4af37', '#f3e5ab', '#ffffff', '#722f37'];
         var particleCount = 10;
         for (var i = 0; i < particleCount; i++) {
           var p = document.createElement('div');
@@ -532,9 +464,7 @@
           p.style.setProperty('--ty', ty + 'px');
 
           document.body.appendChild(p);
-          setTimeout(function(particle) {
-            particle.remove();
-          }, 600, p);
+          setTimeout(function(particle) { particle.remove(); }, 600, p);
         }
       }
 
@@ -542,18 +472,11 @@
       bats.forEach(function (bat) {
         bat.addEventListener('click', function (e) {
           playSqueak();
-          
-          // Get the center coordinates of the bat
           var rect = bat.getBoundingClientRect();
-          var centerX = rect.left + rect.width / 2;
-          var centerY = rect.top + rect.height / 2;
-          
-          createExplosion(centerX, centerY);
+          createExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
           bat.classList.add('squeaked');
-          setTimeout(function () {
-            bat.classList.remove('squeaked');
-          }, 300);
+          setTimeout(function () { bat.classList.remove('squeaked'); }, 300);
         });
       });
     })();
