@@ -18,7 +18,7 @@
     }
 
     /* In-flow image: shown once, natural aspect ratio, full screen width.
-       Its height IS the page height. */
+       It scrolls with the page, and its height IS the page height. */
     .comic {
       display: block;
       width: 100%;
@@ -36,14 +36,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end; /* anchor content toward the bottom */
+      justify-content: flex-start; /* content sits at the top */
       gap: 10px;
-      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 4dvh);
+      padding: calc(env(safe-area-inset-top) + 2dvh) 12px 0;
       box-sizing: border-box;
       pointer-events: none; /* scrolling passes through empty areas */
       z-index: 10;
     }
 
+    /* Outer h1 plays the one-time entrance; inner span does the endless float + glow.
+       They are separate elements so the two transform animations never conflict. */
     .greeting {
       margin: 0;
       font-family: "Snell Roundhand", "Brush Script MT", "Lucida Handwriting",
@@ -55,11 +57,20 @@
       text-align: center;
       color: #fff3d1;
       letter-spacing: 0.02em;
-      /* Slow float + soft glow; both loop seamlessly (first keyframe = last). */
+      animation: enter-greeting 2s ease-out both;
+    }
+
+    .greeting span {
+      display: inline-block;
       animation:
         float 9s ease-in-out infinite,
         glow 6s ease-in-out infinite;
       will-change: transform;
+    }
+
+    @keyframes enter-greeting {
+      from { opacity: 0; transform: translateY(-40px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes float {
@@ -82,40 +93,82 @@
       }
     }
 
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
     .player {
       display: block;
       width: auto;
       height: auto;
       max-width: 100%;
-      max-height: 40vh;   /* fallback */
-      max-height: 40dvh;
+      max-height: 36vh;   /* fallback */
+      max-height: 36dvh;
       background: #000;
       border-radius: 10px;
       border: 2px solid #fff3d1;
       box-shadow: 0 6px 24px rgba(40, 0, 40, 0.55);
       pointer-events: auto; /* video controls stay usable */
+      animation: fade-in 1.6s ease-out 1s both; /* appears just after the greeting */
+    }
+
+    /* Place button: name on top, dates underneath. Easy to tap on a phone. */
+    .book {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 10px 22px;
+      border-radius: 22px;
+      background: #fff3d1;
+      color: #5a1240;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(40, 0, 40, 0.5);
+      pointer-events: auto; /* the button must be tappable */
+      animation: fade-in 1.6s ease-out 1.6s both;
+    }
+
+    .book .place {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .book .dates {
+      font-weight: 500;
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+
+    .book:active {
+      transform: scale(0.97);
     }
 
     /* ---------- Larger screens (tablet and up) ---------- */
     @media (min-width: 600px) {
       .overlay {
-        gap: 18px;
+        gap: 16px;
         padding-left: 16px;
         padding-right: 16px;
+        padding-top: calc(env(safe-area-inset-top) + 3dvh);
       }
       .greeting {
         font-size: clamp(3rem, 7vw, 4.5rem);
       }
       .player {
         max-width: min(92vw, 640px);
-        max-height: 50dvh;
+        max-height: 46dvh;
         border-width: 3px;
         border-radius: 12px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .greeting { animation: none; }
+      .greeting, .greeting span, .player, .book { animation: none; }
     }
   </style>
 </head>
@@ -124,8 +177,12 @@
   <img class="comic" src="comic.jpg" alt="Birthday comic">
 
   <div class="overlay">
-    <h1 class="greeting">Happy Birthday!</h1>
-    <video class="player" src="video.mp4" controls playsinline preload="metadata"></video>
+    <h1 class="greeting"><span>Happy Birthday!</span></h1>
+    <video class="player" src="video.mp4#t=0.1" controls playsinline preload="metadata"></video>
+    <a class="book" href="https://winosabat.pl/pokoje-goscinne/" target="_blank" rel="noopener noreferrer">
+      <span class="place">Winnica i Winiarnia Celtica</span>
+      <span class="dates">Mon 16 – Wed 18 November 2026</span>
+    </a>
   </div>
 
 </body>
