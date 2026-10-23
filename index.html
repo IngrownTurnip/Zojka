@@ -2,95 +2,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Happy Birthday!</title>
+  <style>
+    /* ---------- Mobile-first base styles ---------- */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #2a1830; /* shown only while the image loads */
+    }
 
-    <title>Happy Birthday!</title>
+    body {
+      overflow-x: hidden;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    /* In-flow image: shown once, natural aspect ratio, full screen width.
+       Its height IS the page height. */
+    .comic {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
 
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
+    /* Fixed overlay: stays put while the page scrolls and adds no scroll height. */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;   /* fallback */
+      height: 100dvh;  /* mobile Safari 15.4+ / modern browsers */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end; /* anchor content toward the bottom */
+      gap: 10px;
+      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 4dvh);
+      box-sizing: border-box;
+      pointer-events: none; /* scrolling passes through empty areas */
+      z-index: 10;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #000;
-        }
+    .greeting {
+      margin: 0;
+      font-family: "Snell Roundhand", "Brush Script MT", "Lucida Handwriting",
+                   Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 11vw, 3.5rem);
+      line-height: 1.1;
+      text-align: center;
+      color: #fff3d1;
+      letter-spacing: 0.02em;
+      /* Slow float + soft glow; both loop seamlessly (first keyframe = last). */
+      animation:
+        float 9s ease-in-out infinite,
+        glow 6s ease-in-out infinite;
+      will-change: transform;
+    }
 
-        .background img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
 
-        .birthday-message {
-            position: fixed;
-            top: 8%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            text-align: center;
-            z-index: 10;
-            color: white;
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: bold;
-            text-shadow:
-                3px 3px 0 #ff1493,
-                -2px -2px 0 #ff1493,
-                0 0 20px rgba(0, 0, 0, 0.8);
-            pointer-events: none;
-        }
+    @keyframes glow {
+      0%, 100% {
+        text-shadow:
+          0 2px 4px rgba(50, 0, 40, 0.75),
+          0 0 10px rgba(255, 140, 200, 0.35),
+          0 0 22px rgba(255, 140, 200, 0.2);
+      }
+      50% {
+        text-shadow:
+          0 2px 4px rgba(50, 0, 40, 0.75),
+          0 0 14px rgba(255, 190, 220, 0.8),
+          0 0 34px rgba(255, 200, 90, 0.55);
+      }
+    }
 
-        .video-container {
-            position: fixed;
-            top: 35%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
-            z-index: 5;
-        }
+    .player {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 40vh;   /* fallback */
+      max-height: 40dvh;
+      background: #000;
+      border-radius: 10px;
+      border: 2px solid #fff3d1;
+      box-shadow: 0 6px 24px rgba(40, 0, 40, 0.55);
+      pointer-events: auto; /* video controls stay usable */
+    }
 
-        video {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+    /* ---------- Larger screens (tablet and up) ---------- */
+    @media (min-width: 600px) {
+      .overlay {
+        gap: 18px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .greeting {
+        font-size: clamp(3rem, 7vw, 4.5rem);
+      }
+      .player {
+        max-width: min(92vw, 640px);
+        max-height: 50dvh;
+        border-width: 3px;
+        border-radius: 12px;
+      }
+    }
 
-        @media (max-width: 600px) {
-            .birthday-message {
-                top: 10%;
-            }
-
-            .video-container {
-                top: 32%;
-                width: 94%;
-            }
-        }
-    </style>
+    @media (prefers-reduced-motion: reduce) {
+      .greeting { animation: none; }
+    }
+  </style>
 </head>
-
 <body>
 
-    <div class="background">
-        <img src="comic.jpg" alt="">
-    </div>
+  <img class="comic" src="comic.jpg" alt="Birthday comic">
 
-    <div class="birthday-message">
-        Happy Birthday!
-    </div>
+  <div class="overlay">
+    <h1 class="greeting">Happy Birthday!</h1>
+    <video class="player" src="video.mp4" controls playsinline preload="metadata"></video>
+  </div>
 
-    <div class="video-container">
-        <video controls playsinline preload="metadata">
-            <source src="video.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-        </video>
-    </div>
+</body>
+</html>
 
 </body>
 </html>
